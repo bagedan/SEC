@@ -1,3 +1,5 @@
-com\cep\jms\HelloWorld.class
+com\cep\jms\Receiver.class
 com\cep\jms\HelloWorld$HelloWorldConsumer.class
+com\cep\jms\Publisher.class
+com\cep\jms\HelloWorld.class
 com\cep\jms\HelloWorld$HelloWorldProducer.class
