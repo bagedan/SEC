@@ -9,8 +9,11 @@ import java.util.Random;
  */
 public class ShareEventGenerator {
 
-
     private EventPublisher eventPublisher;
+
+    public ShareEventGenerator() {
+        this.eventPublisher = new EventPublisher();
+    }
 
     public void generateEvents(int numberEvents) {
         Random random = new Random();

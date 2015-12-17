@@ -47,7 +47,7 @@ public class EventPublisher {
         try {
             ObjectMessage message = session.createObjectMessage(event);
             // Tell the producer to send the message
-            System.out.println("Sent message: " + message);
+            System.out.println("Sent message: " + message.getJMSMessageID());
             producer.send(message);
         } catch (JMSException e) {
             e.printStackTrace();
