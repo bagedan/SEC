@@ -1,5 +1,6 @@
 package com.cep.jms;
 
+import com.cep.event.Event;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import sun.misc.IOUtils;
 
@@ -56,7 +57,8 @@ public class Receiver implements ExceptionListener, MessageListener {
 
                 if (message instanceof ObjectMessage) {
                     ObjectMessage objectMessage = (ObjectMessage) message;
-                    System.out.println("Received: " + objectMessage);
+                    Event event = (Event) objectMessage.getObject();
+                    System.out.println("Received: " + event);
                 } else {
                     System.out.println("Received: " + message);
                 }
