@@ -1,86 +1,42 @@
 package com.cep.jms;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
-
-import javax.jms.*;
-import javax.naming.InitialContext;
+import com.cep.event.generators.ReadEventsGenerator;
+import com.cep.event.generators.ShareEventGenerator;
 
 /**
  * Created by Tkachi on 2015/12/9.
  */
 public class Publisher {
 
-    private static String queue = "EVENTS";
-    private static String brokerUrl = "tcp://localhost:61616";
-    private Connection connection;
-    private Session session;
+    private ReadEventsGenerator readEventsGenerator;
+    private ShareEventGenerator shareEventsGenerator;
 
     public static void main(String[] args) {
+        int readCount = 5;
+        int shareCount = 5;
         if(args.length == 2){
-            System.out.println("Arguments provided: [" + args[0] + "] : [" + args[1] + "]");
-            brokerUrl = args[0];
-            queue = args[1];
+            System.out.println("Arguments provided: No read events [" + args[0] + "] : No shared events [" + args[1] + "]");
+            readCount = Integer.valueOf(args[0]);
+            shareCount = Integer.valueOf(args[1]);
         }else{
-            System.out.println("Arguments are not provided. Using defaults: [" + brokerUrl + "] : [" + queue + "]");
+            System.out.println("Arguments are not provided. Using defaults: [" + readCount + "] : [" + shareCount + "]");
         }
+        ReadEventsGenerator readEventsGenerator = new ReadEventsGenerator();
+        ShareEventGenerator shareEventsGenerator = new ShareEventGenerator();
 
-        Publisher publisher = new Publisher();
+        Publisher publisher = new Publisher(readEventsGenerator, shareEventsGenerator);
         System.out.println("Publisher started");
-        publisher.publishMessagesForever();
+        publisher.generateEvents(readCount, shareCount);
     }
 
-    public void publishMessagesForever() {
-        try {
-            // Create a ConnectionFactory
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
-
-            // Create a Connection
-            connection = connectionFactory.createConnection();
-            connection.start();
-
-            // Create a Session
-            this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
-            // Create the destination (Topic or Queue)
-            Destination destination = session.createQueue(queue);
-
-            // Create a MessageProducer from the Session to the Topic or Queue
-            MessageProducer producer = session.createProducer(destination);
-            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
-            int i = 0;
-            while(true){
-                // Create a messages
-                String text = "Message No " + i + " From: " + Thread.currentThread().getName() + " : " + this.hashCode();
-                TextMessage message = session.createTextMessage(text);
-
-                // Tell the producer to send the message
-                System.out.println("Sent message No " + i);
-                producer.send(message);
-                i++;
-                Thread.sleep(1000);
-            }
-
-
-        } catch (Exception e) {
-            System.out.println("Caught: " + e);
-            e.printStackTrace();
-        }finally{
-            if(connection!=null){
-                try {
-                    connection.close();
-                } catch (JMSException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(session!=null){
-                try {
-                    session.close();
-                } catch (JMSException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
+    public Publisher(ReadEventsGenerator readEventsGenerator, ShareEventGenerator shareEventsGenerator) {
+        this.readEventsGenerator = readEventsGenerator;
+        this.shareEventsGenerator = shareEventsGenerator;
     }
+
+    public void generateEvents(int readEventsNo, int shareEventsNo){
+        readEventsGenerator.generateEvents(readEventsNo);
+        shareEventsGenerator.generateEvents(shareEventsNo);
+    }
+
 }

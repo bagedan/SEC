@@ -54,10 +54,9 @@ public class Receiver implements ExceptionListener, MessageListener {
                 // Wait for a message
                 Message message = consumer.receive(10000);
 
-                if (message instanceof TextMessage) {
-                    TextMessage textMessage = (TextMessage) message;
-                    String text = textMessage.getText();
-                    System.out.println("Received: " + text);
+                if (message instanceof ObjectMessage) {
+                    ObjectMessage objectMessage = (ObjectMessage) message;
+                    System.out.println("Received: " + objectMessage);
                 } else {
                     System.out.println("Received: " + message);
                 }
