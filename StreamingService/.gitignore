@@ -7,3 +7,4 @@
 .project
 /lib
 .cache-main
+.DS_Store

@@ -10,8 +10,8 @@ public class EventPublisher {
     final static int ARTICLES_COUNT = 10;
     final static int USERS_COUNT = 10;
 
-    private static final String queue = "EVENTS";
-    private static final String brokerUrl = "tcp://localhost:61616";
+    public  static final String QUEUE_ID = "EVENTS";
+    public static final String BORKE_URL = "tcp://localhost:61616";
     private Session session;
     private MessageProducer producer;
 
@@ -25,7 +25,7 @@ public class EventPublisher {
     }
 
     private void initSession() throws JMSException {
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(BORKE_URL);
 
         // Create a Connection
         Connection connection = connectionFactory.createConnection();
@@ -35,7 +35,7 @@ public class EventPublisher {
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         // Create the destination (Topic or Queue)
-        Destination destination = session.createQueue(queue);
+        Destination destination = session.createQueue(QUEUE_ID);
 
         // Create a MessageProducer from the Session to the Topic or Queue
         producer = session.createProducer(destination);

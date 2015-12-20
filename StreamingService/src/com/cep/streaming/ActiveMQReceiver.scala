@@ -5,14 +5,14 @@ import java.net.Socket
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import javax.jms._;
-
+import com.cep.event.Event
 import org.apache.spark.{ SparkConf, Logging }
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.{ Seconds, StreamingContext }
 import org.apache.spark.streaming.receiver.Receiver
 
-class ActiveMQReveiver(url: String, queue: String)
-    extends Receiver[String](StorageLevel.MEMORY_AND_DISK_2)  {
+class ActiveMQReveiver(url: String, queueID: String)
+    extends Receiver[Event](StorageLevel.MEMORY_AND_DISK_2)  {
  
   def onStart() { 
     // Start the thread that receives data over a connection
@@ -41,17 +41,18 @@ class ActiveMQReveiver(url: String, queue: String)
       val session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
 
       // Create the destination (Topic or Queue)
-      val destination = session.createQueue(queue)
+      val destination = session.createQueue(queueID)
 
       // Create a MessageConsumer from the Session to the Topic or Queue
       consumer = session.createConsumer(destination)
 
       while (!isStopped) {
         message = consumer.receive(1000 * 5)
-        if (message!=null&&message.isInstanceOf[TextMessage]) {
-          val text = message.asInstanceOf[TextMessage]
-          store(text.getText)
-        } else {
+        if (message!=null&&message.isInstanceOf[ObjectMessage]) {
+          val event = message.asInstanceOf[ObjectMessage].getObject.asInstanceOf[Event]
+          
+            store(event)
+          } else {
           println("received message is not text : " + message)
         }
       }

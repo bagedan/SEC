@@ -38,29 +38,6 @@
       <url>http://mvnrepository.com/artifact/org.apache.activemq</url>
     </repository>
   </repositories>
-  <dependencies>
-    <dependency>
-      <groupId>com.datastax</groupId>
-      <artifactId>dse-core</artifactId>
-      <version>${dse.version}</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/dse-core-${dse.version}.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>com.datastax</groupId>
-      <artifactId>dse-spark</artifactId>
-      <version>${dse.version}</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/dse-spark-${dse.version}.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>com.datastax</groupId>
-      <artifactId>dse-hadoop</artifactId>
-      <version>${dse.version}</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/dse-hadoop-${dse.version}.jar</systemPath>
-    </dependency>
-  </dependencies>
   <properties>
     <dse.version>4.8.0</dse.version>
   </properties>
