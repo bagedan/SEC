@@ -64,7 +64,7 @@ public class ArticleTagsGenerator {
         String cqlStatement = "SELECT stock_id FROM stocks";
         List<String> tags = new ArrayList<String>();
         for (Row row : session.execute(cqlStatement)) {
-            String tag = row.toString();
+            String tag = row.getString("stock_id");
 //            System.out.println(tag);
             tags.add(tag);
         }
