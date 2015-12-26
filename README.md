@@ -10,6 +10,21 @@ java -cp events-producer-1.0-SNAPSHOT.jar com.cep.jms.Receiver
 
 will receive and print all these event
 
+
+
+Cassandra tables: 
+
+ CREATE KEYSPACE cep_demo WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1} ;
+
+Create 
+
+1) Get stockIds by articleId
+
+Create table article_tags {
+articleId text,
+stockId text,
+PRIMARY KEY(articleId, stockId)}
+
 TODO: 
 
 1) Data generator that will generate article -> tags table and keeps it in cassandra (static table, generated once)
