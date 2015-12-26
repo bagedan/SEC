@@ -15,15 +15,20 @@ will receive and print all these event
 Cassandra tables: 
 
  CREATE KEYSPACE cep_demo WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1} ;
+Use cep_demo ;
 
-Create 
+1) Stocks data
+
+CREATE TABLE stocks (stock_id text PRIMARY KEY, stock_name text) ;
+
+COPY stocks FROM  'workspace/SEC/data/stocklist.csv' WITH HEADER = true;
+
 
 1) Get stockIds by articleId
 
-Create table article_tags {
-articleId text,
-stockId text,
-PRIMARY KEY(articleId, stockId)}
+Create table article_tags (articleId text, stockId text, PRIMARY KEY(articleId, stockId));
+
+COPY
 
 TODO: 
 
