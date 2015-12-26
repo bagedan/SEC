@@ -40,15 +40,17 @@ public class ArticleTagsGenerator {
 
     private void generateArticles(int numberOfRows) {
         List<String> availableTags = readTags();
-        PreparedStatement updateStatement = session.prepare("INSERT INTO stocks (stock_id, stock_name ) VALUES ( ? , ?);");
+        PreparedStatement updateStatement = session.prepare("INSERT INTO article_tags (articleid, stockid ) VALUES ( ? , ?);");
 
         for(int i = 0; i< numberOfRows; i++){
             List<String> subSet = getRandomSubSet(availableTags);
             String articleId = articleNamePrefix + i;
             for(String tag:subSet){
                 session.execute( updateStatement.bind(articleId, tag));
+                System.out.println("For article " + articleId + " insert tag " + tag);
             }
         }
+        session.close();
     }
 
     private List<String> getRandomSubSet(List<String> availableTags) {
@@ -63,7 +65,7 @@ public class ArticleTagsGenerator {
         List<String> tags = new ArrayList<String>();
         for (Row row : session.execute(cqlStatement)) {
             String tag = row.toString();
-            System.out.println(tag);
+//            System.out.println(tag);
             tags.add(tag);
         }
         return tags;
