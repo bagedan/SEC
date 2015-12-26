@@ -7,7 +7,7 @@ import javax.jms.*;
 
 public class EventPublisher {
 
-    final static int ARTICLES_COUNT = 10;
+    final static int ARTICLES_COUNT = 5000;
     final static int USERS_COUNT = 10;
 
     public  static final String QUEUE_ID = "EVENTS";

@@ -1,9 +1,11 @@
 Demo project for SEC 
 
 
-java -cp events-producer-1.0-SNAPSHOT.jar com.cep.jms.Publisher NoReadMessages NoShareArticleArticles
+java -cp events-producer-1.0-SNAPSHOT.jar com.cep.jms.Publisher NumberReadMessages NumberShareArticleArticles
 
-will Publish read article and share article events with userId = "user" + random(10) and articleId = "article" + random(10)
+will Publish read article and share article events with userId = "user" + random(10) and articleId = "article" + random(5000)
+
+*EventPublisher.ARTICLE_COUNT and USER_COUNT variables*
 
 
 java -cp events-producer-1.0-SNAPSHOT.jar com.cep.jms.Receiver
@@ -24,18 +26,16 @@ CREATE TABLE stocks (stock_id text PRIMARY KEY, stock_name text) ;
 COPY stocks FROM  'workspace/SEC/data/stocklist.csv' WITH HEADER = true;
 
 
-1) Get stockIds by articleId
+Create stockIds by articleId data
 
 Create table article_tags (articleId text, stockId text, PRIMARY KEY(articleId, stockId));
 
-COPY
+java -cp target/data-generator-1.0NAPSHOT.jar com.cep.data.ArticleTagsGenerator <number of articles> 
+
+ArticleTagsGenerator will generate N articles and assignt from 1 to 5 random tags to it. 
+Default N is 5000.
 
 TODO: 
-
-1) Data generator that will generate article -> tags table and keeps it in cassandra (static table, generated once)
-
-article1 -> stock1, stock2, stock5
-.....
 
 2) Data feed that push price data to queue "PRICE"
 One message will have fields
@@ -54,6 +54,8 @@ double price
 Second iteration
 
 7) Based on PRICE - if delta is higher than some limit - query to find a user whose first most interested stock is chnaged one
+
+
 
 
 
