@@ -35,6 +35,15 @@ java -cp target/data-generator-1.0NAPSHOT.jar com.cep.data.ArticleTagsGenerator 
 ArticleTagsGenerator will generate N articles and assignt from 1 to 5 random tags to it. 
 Default N is 5000.
 
+2) User interest data 
+
+CREATE TABLE user_interests ( userId text, stockId text, interest counter, PRIMARY KEY(userId, stockId));
+
+3) Users interested in some stock
+
+CREATE TABLE users_by_stock( stockId text, userId text,  interest counter, PRIMARY KEY(stockId, userId));
+
+
 TODO: 
 
 2) Data feed that push price data to queue "PRICE"
@@ -47,7 +56,12 @@ double price
 
 4) Spark job should be able to save to cassandra all stuff that comming from EVENT and PRICE queues
 
-5) Based on EVENT messages update count for each user for each tag
+5) Based on EVENT messages update count for each user for each tag - Update should go to two tables - user_interests and users_by_stock
+
+ UPDATE user_interests SET interest = interest +1 where userid = 'user1' and stockid = 'stock1';
+ 
+  UPDATE users_by_stock SET interest = interest +1 where userid = 'user1' and stockid = 'stock1';
+
 
 6) Based on PRICE - if delta is higher than some limit - query to find who is interested in this stock (value > some variable)
 
