@@ -7,9 +7,10 @@ import java.util.Random;
 /**
  * Created by Olga on 17.12.2015.
  */
-public class ShareEventGenerator {
+public class ShareEventGenerator implements Runnable {
 
     private EventPublisher eventPublisher;
+    private int batchSize;
 
     public ShareEventGenerator() {
         this.eventPublisher = new EventPublisher();
@@ -33,4 +34,19 @@ public class ShareEventGenerator {
     }
 
 
+    public void run() {
+        while(true){
+            System.out.println("Generating new batch of Share events, Batch size: " + batchSize);
+            generateEvents(batchSize);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setBatchSize(int batchSize){
+        this.batchSize = batchSize;
+    }
 }

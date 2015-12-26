@@ -5,5 +5,5 @@ package com.cep.event;
  */
 public enum EventType {
 
-    READ_ARTICLE, SHARE_ARTICLE;
+    READ_ARTICLE, SHARE_ARTICLE, PRICE_CHANGE;
 }

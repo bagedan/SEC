@@ -10,13 +10,22 @@ public class EventPublisher {
     final static int ARTICLES_COUNT = 5000;
     final static int USERS_COUNT = 10;
 
-    public  static final String QUEUE_ID = "EVENTS";
+    public  String queueId = "EVENTS";
     public static final String BORKE_URL = "tcp://localhost:61616";
     private Session session;
     private MessageProducer producer;
 
 
     public EventPublisher() {
+        try {
+            initSession();
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public EventPublisher(String queueId) {
+        this.queueId = queueId;
         try {
             initSession();
         } catch (JMSException e) {
@@ -35,7 +44,7 @@ public class EventPublisher {
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         // Create the destination (Topic or Queue)
-        Destination destination = session.createQueue(QUEUE_ID);
+        Destination destination = session.createQueue(queueId);
 
         // Create a MessageProducer from the Session to the Topic or Queue
         producer = session.createProducer(destination);
@@ -43,7 +52,7 @@ public class EventPublisher {
 
     }
 
-    public void sendMessage(Event event){
+    public synchronized void sendMessage(Event event){
         try {
             ObjectMessage message = session.createObjectMessage(event);
             // Tell the producer to send the message
