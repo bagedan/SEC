@@ -53,9 +53,9 @@ public class PriceChangeEventGenerator implements Runnable{
             double changePercents = random.nextDouble() * priceChangePercentsMax;
 
             if(priceGoingUp){
-                currentPrice = changePercents + (changePercents/100d)*currentPrice;
+                currentPrice = currentPrice + (changePercents/100d)*currentPrice;
             }else{
-                currentPrice = changePercents - (changePercents/100d)*currentPrice;
+                currentPrice = currentPrice - (changePercents/100d)*currentPrice;
                 if(currentPrice<0){
                     currentPrice = 0;
                 }
