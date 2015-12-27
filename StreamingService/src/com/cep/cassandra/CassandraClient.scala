@@ -19,25 +19,55 @@ object CassandraClient {
   def getStockIdsByArticle(articleid: String): Array[String] = {
 
     var cql = "SELECT stockid FROM article_tags  WHERE articleid=?"
-    val results = session.execute(cql, articleid).all().asScala.toList 
+    val results = session.execute(cql, articleid).all().asScala.toList
 
     var row: Row = null
-    
-    var array=new Array[String](results.size)
-    
-    var index:Int=0;
-  
-    for(row <- results){
-      array(0)=row.getString("stockid")
-      index+=1
+
+    var array = new Array[String](results.size)
+
+    var index: Int = 0;
+
+    for (row <- results) {
+      array(0) = row.getString("stockid")
+      index += 1
     }
-    
+
     return array
 
   }
 
-  def main(args: Array[String]): Unit = {
-    val x = CassandraClient.cluster.getClusterName
-    println(x)
+  def saveInterests(userid: String, stockid: String, interest: Int) {
+    var cql = "UPDATE users_by_stock SET interest = interest+? WHERE stockid =? AND userid =?  "
+    session.execute(cql, interest.asInstanceOf[Integer], stockid, userid)
   }
+
+  def getUserByStockId(stockid: String): Array[String] = {
+    var cql = "SELECT userid FROM users_by_stock  WHERE stockid=? and interest>2"
+    var results:List[Row] =null
+    try{
+         results=session.execute(cql, stockid).all().asScala.toList
+    
+    }catch {
+      case t: Throwable =>
+        t.printStackTrace()
+    }
+ 
+    if(results==null||results.size==0){
+      return null
+    }
+    
+    var row: Row = null
+
+    var array = new Array[String](results.size)
+
+    var index: Int = 0;
+
+    for (row <- results) {
+      array(0) = row.getString("userid")
+      index += 1
+    }
+
+    return array
+  }
+
 }
