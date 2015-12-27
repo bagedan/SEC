@@ -18,7 +18,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -60,6 +60,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.datastax.spark</groupId>
+			<artifactId>spark-cassandra-connector_2.10</artifactId>
+			<version>1.4.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-core</artifactId>
 			<version>5.7.0</version>
@@ -84,6 +90,10 @@
 			</dependency> -->
 	</dependencies>
 	<repositories>
+		<repository>
+			<id>spark-cassandra-connector</id>
+			<url>http://mvnrepository.com/artifact/com.datastax.spark</url>
+		</repository>
 		<repository>
 			<id>spark</id>
 			<url>http://www.mvnrepository.com/artifact/org.apache.spark</url>

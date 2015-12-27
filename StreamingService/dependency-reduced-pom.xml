@@ -43,6 +43,10 @@
   </build>
   <repositories>
     <repository>
+      <id>spark-cassandra-connector</id>
+      <url>http://mvnrepository.com/artifact/com.datastax.spark</url>
+    </repository>
+    <repository>
       <id>spark</id>
       <url>http://www.mvnrepository.com/artifact/org.apache.spark</url>
     </repository>
@@ -65,6 +69,46 @@
         <exclusion>
           <artifactId>unused</artifactId>
           <groupId>org.spark-project.spark</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.datastax.spark</groupId>
+      <artifactId>spark-cassandra-connector_2.10</artifactId>
+      <version>1.4.1</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>cassandra-clientutil</artifactId>
+          <groupId>org.apache.cassandra</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>cassandra-driver-core</artifactId>
+          <groupId>com.datastax.cassandra</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-lang3</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>joda-convert</artifactId>
+          <groupId>org.joda</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>joda-time</artifactId>
+          <groupId>joda-time</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsr166e</artifactId>
+          <groupId>com.twitter</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>scala-reflect</artifactId>
+          <groupId>org.scala-lang</groupId>
         </exclusion>
       </exclusions>
     </dependency>
