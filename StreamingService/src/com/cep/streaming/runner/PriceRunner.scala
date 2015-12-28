@@ -11,7 +11,7 @@ import com.cep.streaming._
 object PriceRunner {
 
   val QUEUE_ID = "PRICE"
-  val BORKE_URL = "tcp://52.74.145.7:61616"
+  val BORKE_URL = "tcp://127.0.0.1:61616"
 
   val price_threhold: Double = 0.05
 
