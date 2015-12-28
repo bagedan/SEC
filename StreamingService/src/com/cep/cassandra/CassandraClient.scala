@@ -38,7 +38,7 @@ object CassandraClient {
 
   def saveInterests(userid: String, stockid: String, interest: Int) {
     var cql = "UPDATE users_by_stock SET interest = interest+? WHERE stockid =? AND userid =?  "
-    session.execute(cql, interest.asInstanceOf[Integer], stockid, userid)
+    session.execute(cql, interest.toLong.asInstanceOf[java.lang.Long], stockid, userid)
   }
 
   def getUserByStockId(stockid: String): Array[String] = {
