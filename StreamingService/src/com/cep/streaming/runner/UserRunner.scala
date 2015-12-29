@@ -15,10 +15,8 @@ object UserRunner {
 
   val QUEUE_ID = "EVENTS";
   val BORKE_URL = "tcp://127.0.0.1:61616";
- 
-  def main(args: Array[String]): Unit = {
 
-    // Create the context with a 1 second batch size
+  def main(args: Array[String]): Unit = {
 
     val sparkConf = new SparkConf().setAppName("user-event-streaming")
       .set("spark.cassandra.connection.host", "127.0.0.1")
@@ -27,8 +25,6 @@ object UserRunner {
       sparkConf.setMaster("local[*]")
     }
 
-    //val sparkConf = DseSparkConfHelper.enrichSparkConf(new SparkConf().setAppName("cep-streaming"));
-
     val ssc = new StreamingContext(sparkConf, Seconds(1))
 
     val eventsStream = ssc.receiverStream(new ActiveMQReveiver(BORKE_URL, QUEUE_ID))
@@ -36,9 +32,13 @@ object UserRunner {
     eventsStream.persist()
     eventsStream.print()
 
-    val user2Article2Interests = eventsStream.map { EventFunc.getUser2Article2Interests }.reduceByKey(_ + _)
+    val user2Article2Interests = eventsStream
+      .map { EventFunc.getUser2Article2Interests }.reduceByKey(_ + _)
 
-    val user2Stock2Interests = user2Article2Interests.flatMap(EventFunc.getUser2Stocks2Interests).reduceByKey(_ + _)
+    val user2Stock2Interests = user2Article2Interests
+      .flatMap(EventFunc.getUser2Stocks2Interests)
+      .filter(x => x._1._2 != null)
+      .reduceByKey(_ + _)
     user2Stock2Interests.persist()
     user2Stock2Interests.print()
 
