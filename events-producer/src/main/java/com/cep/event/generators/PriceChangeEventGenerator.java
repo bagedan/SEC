@@ -45,7 +45,7 @@ public class PriceChangeEventGenerator implements Runnable{
         }
     }
 
-    private Map<String, Double> updatePrices(Map<String, Double> currentPriceData) {
+    public Map<String, Double> updatePrices(Map<String, Double> currentPriceData) {
         Random random = new Random();
         for(String key : currentPriceData.keySet()){
             double currentPrice = currentPriceData.get(key);
