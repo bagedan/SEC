@@ -53,12 +53,21 @@ object PriceFunc extends Serializable {
   def getNotification(stock2Percent2Incre: (String, (Double, Boolean))): Array[((String, String), (Double, Boolean))] = {
     val stock = stock2Percent2Incre._1
     val users = getUserByStock(stock)
-
-    if (users == null) {
-      return null
+    
+    var size :Int =0
+    
+    if(users!=null){
+      size=users.size
     }
 
-    var array: Array[((String, String), (Double, Boolean))] = new Array[((String, String), (Double, Boolean))](users.size)
+    var array: Array[((String, String), (Double, Boolean))] = new Array[((String, String), (Double, Boolean))](size)
+
+    
+    if (users == null) {
+       array(0) = ((stock, null), stock2Percent2Incre._2)
+      return array
+    }
+
 
     var index: Int = 0
     var user: String = null

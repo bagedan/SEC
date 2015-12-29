@@ -36,7 +36,7 @@ object EventFunc extends Serializable {
 
     val stocks = getStocksByArticle(article)
 
-    stocks.foreach { x => { println(article + " ----------- " + x) } }
+    stocks.foreach { x => { println(article + " ~~~~~~~~~~" + x) } }
 
     array = new Array[((String, String), Int)](stocks.length)
 

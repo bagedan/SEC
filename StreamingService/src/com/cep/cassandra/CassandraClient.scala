@@ -42,7 +42,7 @@ object CassandraClient {
   }
 
   def getUserByStockId(stockid: String): Array[String] = {
-    var cql = "SELECT userid FROM users_by_stock  WHERE stockid=? and interest>2"
+    var cql = "SELECT userid FROM users_by_stock  WHERE stockid=? "
     var results:List[Row] =null
     try{
          results=session.execute(cql, stockid).all().asScala.toList

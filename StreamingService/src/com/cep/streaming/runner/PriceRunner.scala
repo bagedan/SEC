@@ -48,7 +48,8 @@ object PriceRunner {
     val bigChange = stock2change.filter(x => x._2._1 > price_threhold)
     bigChange.persist()
   
-    val notification = bigChange.flatMap(PriceFunc.getNotification) 
+    val notification = bigChange.flatMap(PriceFunc.getNotification).filter(x=>x._1._2!=null)
+    
     notification.print()
 
     ssc.start()
