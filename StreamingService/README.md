@@ -14,7 +14,7 @@
     
     cp /home/ec2-user/workspace/SEC/StreamingService/target/StreamingService-0.0.1-SNAPSHOT.jar /home/ec2-user/workspace/SEC/StreamingService/target/price.jar
 
-    dse spark-submit --master spark://127.0.0.1:7077 --deploy-mode cluster --class com.cep.streaming.runner.PriceRunner /home/ec2-user/workspace/SEC/StreamingService/target/user.jar
+    dse spark-submit --master spark://127.0.0.1:7077 --deploy-mode cluster --class com.cep.streaming.runner.UserRunner /home/ec2-user/workspace/SEC/StreamingService/target/user.jar
     
     dse spark-submit --master spark://127.0.0.1:7077 --deploy-mode cluster --class com.cep.streaming.runner.PriceRunner /home/ec2-user/workspace/SEC/StreamingService/target/price.jar
 
