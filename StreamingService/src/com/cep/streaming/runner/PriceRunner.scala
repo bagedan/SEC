@@ -49,8 +49,12 @@ object PriceRunner {
     bigChange.persist()
   
     val notification = bigChange.flatMap(PriceFunc.getNotification).filter(x=>x._1._2!=null)
-    
+   
+    notification.persist()
     notification.print()
+    
+    notification.foreachRDD(rdd=>rdd.foreach(PriceFunc.sendNotification))
+    //sendNotification
 
     ssc.start()
     ssc.awaitTermination()
