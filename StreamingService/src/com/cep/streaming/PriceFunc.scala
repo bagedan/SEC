@@ -54,16 +54,16 @@ object PriceFunc extends Serializable {
     val stock = stock2Percent2Incre._1
     val users = getUserByStock(stock)
     
-    var size :Int =0
+    var size :Int =1
     
-    if(users!=null){
+    if(users!=null&&users.size>0){
       size=users.size
     }
 
     var array: Array[((String, String), (Double, Boolean))] = new Array[((String, String), (Double, Boolean))](size)
 
     
-    if (users == null) {
+    if (users == null||users.size==0) {
        array(0) = ((stock, null), stock2Percent2Incre._2)
       return array
     }
