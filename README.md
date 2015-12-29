@@ -44,15 +44,15 @@ CREATE TABLE user_interests ( userId text, stockId text, interest counter, PRIMA
 CREATE TABLE users_by_stock( stockId text, userId text,  interest counter, PRIMARY KEY(stockId, userId));
 
 
+4) Users UI
+
+Done by one class that listens to queue USER and print out all text messages. So message itself will be build in spark job
+
+java -cp user-application-1.0-SNAPSHOT.jom.sec.sep.user.UsersUI
+
+
+
 TODO: 
-
-2) Data feed that push price data to queue "PRICE"
-One message will have fields
-String stockId  - somethign like "stock" + randomInt - or random item from long list
-long timestamp
-double price
-
-3) UserUI - consol that will listen to user's queue and print out notifications that pushed by spark jobs 
 
 4) Spark job should be able to save to cassandra all stuff that comming from EVENT and PRICE queues
 
