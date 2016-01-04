@@ -13,30 +13,36 @@ public class Publisher {
     private ReadEventsGenerator readEventsGenerator;
     private ShareEventGenerator shareEventsGenerator;
 
+
+
     public static void main(String[] args) {
-
+        String eventType = args[0];
+        System.out.println("Event type to generate: [" + eventType + "]");
+        int batchSize = 5;
         if(args.length == 2){
-            System.out.println("Arguments provided: No read events [" + args[0] + "] : No shared events [" + args[1] + "]");
-            runGeneratorsOnce(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
-        }else if(args.length == 1) {
-            System.out.println("Arguments are not provided. Running producers as threads forever with batchSize = [" + args[0] + "]");
-            runGeneratorsForever(Integer.valueOf(args[0]));
-        }else{
-            System.out.println("Arguments are not provided. Running producers as threads forever with batchSize = 5");
-            runGeneratorsForever(5);
+            batchSize = Integer.valueOf(args[1]);
         }
+        System.out.println("Arguments are not provided. Running producers as threads forever with batchSize = [" + batchSize + "]");
 
+        if(eventType.toLowerCase().equals("price")){
+            runPriceGeneratorsForever();
+        }else if(eventType.toLowerCase().equals("user")){
+            runUserEventsGeneratorsForever(batchSize);
+        }
     }
 
-    private static void runGeneratorsForever(Integer batchSize) {
+    private static void runPriceGeneratorsForever() {
+        PriceChangeEventGenerator priceChangeEventGenerator = new PriceChangeEventGenerator();
+        new Thread(priceChangeEventGenerator).start();
+    }
+
+    private static void runUserEventsGeneratorsForever(Integer batchSize) {
         ReadEventsGenerator readEventsGenerator = new ReadEventsGenerator();
         ShareEventGenerator shareEventsGenerator = new ShareEventGenerator();
-        PriceChangeEventGenerator priceChangeEventGenerator = new PriceChangeEventGenerator();
         readEventsGenerator.setBatchSize(batchSize);
         shareEventsGenerator.setBatchSize(batchSize);
         new Thread(readEventsGenerator).start();
         new Thread(shareEventsGenerator).start();
-        new Thread(priceChangeEventGenerator).start();
     }
 
     private static void runGeneratorsOnce(Integer readCount, Integer shareCount) {
