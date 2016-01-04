@@ -58,7 +58,7 @@ public class UsersUI implements ExceptionListener {
                     TextMessage textMessage = (TextMessage) message;
                     System.out.println("Notification received: " + textMessage.getText());
                 } else {
-                    System.out.println("Received some strange message: " + message);
+                    System.out.println("No messages for last 10 sec");
                 }
 
             }
